@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/item-series.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/animation.gsap.js"></script>
+</head>
+<style>
+    #container {
+    max-width: 800px;
+    margin: 1em auto;
+}
+</style>
+<style type="text/css">
+	.panel {
+		height: 100%;
+		width: 100%;
+	}
+	.panel.green {
+		margin-bottom: 400px
+	}
+</style>
+<body>
+   <div id="example-wrapper">
+			<div class="scrollContent">
+				<section id="titlechart">
+					<div id="description">
+						<h1>Section Wipes (natural)</h1>
+						<h2>Wiping in content with the natural scroll movement</h2>
+						<p>This commonly used effect can be very easily achieved using ScrollMagic's <code>Scene.setPin()</code> method.</p>
+						<p>If you want to create a "pause" between the slides, simply add a <code>margin-bottom</code> to them (see between slide 3 and 4).</p>
+						<a href="#" class="viewsource">view source</a>
+					</div>
+				</section>
+				<section class="demo" id="section-wipes">
+					<style type="text/css">
+						.panel {
+							height: 100%;
+							width: 100%;
+						}
+						.panel.green {
+							margin-bottom: 400px
+						}
+					</style>
+					<section class="panel blue">
+						<b>ONE</b>
+					</section>
+					<section class="panel turqoise">
+						<b>TWO</b>
+					</section>
+					<section class="panel green">
+						<b>THREE</b>
+					</section>
+					<section class="panel bordeaux">
+						<b>FOUR</b>
+					</section>
+					<script>
+						$(function () { // wait for document ready
+							// init
+							var controller = new ScrollMagic.Controller({
+								globalSceneOptions: {
+									triggerHook: 'onLeave',
+									duration: "200%" // this works just fine with duration 0 as well
+									// However with large numbers (>20) of pinned sections display errors can occur so every section should be unpinned once it's covered by the next section.
+									// Normally 100% would work for this, but here 200% is used, as Panel 3 is shown for more than 100% of scrollheight due to the pause.
+								}
+							});
+
+							// get all slides
+							var slides = document.querySelectorAll("section.panel");
+
+							// create scene for every slide
+							for (var i=0; i<slides.length; i++) {
+								new ScrollMagic.Scene({
+										triggerElement: slides[i]
+									})
+									.setPin(slides[i], {pushFollowers: false})
+									.addIndicators() // add indicators (requires plugin)
+									.addTo(controller);
+							}
+						});
+					</script>
+				</section>
+			</div>
+		</div>
+</body>
+</html>
+
+
+<script>
+
+    Highcharts.chart('container', {
+
+chart: {
+  type: 'item'
+},
+credits: {
+     enabled: false
+},
+
+title: {
+  text: 'Resultats eleccions 1977'
+},
+
+legend: {
+  labelFormat: '{name} <span style="opacity: 0.4">{y}</span>'
+},
+
+series: [{
+  name: 'Nombre de diputats',
+  keys: ['name', 'y', 'color', 'label'],
+  data: [
+    ['UCD', 165, '#197E36', 'UNION DE CENTRO DEMOCRATICO'],
+    ['AP', 16, '#FFA519', 'AP'],
+    ['PSOE', 118, '#EF1C27', 'PSOE'],
+    ['PCE', 20, '#971324', 'PCE'],
+    ['PDC', 11, '#E6792B', 'PNV'],
+    ['PNV', 8, '#4AAE4A', 'PNV'],
+    ['PSP', 6, '#FF7979', 'UC-DCC'],
+    ['UC-DCC', 2, '#F8471B', 'UC-DCC'],
+    ['ERC', 1, '#FFB232', 'ERC'],
+    ['EE', 1, '#80DF20', 'EE'],
+    ['CAIC', 1, '#FFCD20', 'CAIC'],
+    ['CIC', 1, '#DDDDDD', 'CIC']
+  ],
+  dataLabels: {
+    enabled: true,
+    format: '{point.name}'
+  },
+  // Circular options
+  center: ['50%', '88%'],
+  size: '170%',
+  startAngle: -90,
+  endAngle: 90
+}]
+
+});
+
+
+</script>
